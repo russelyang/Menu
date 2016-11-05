@@ -21,22 +21,17 @@
                 controller: 'CategoriesController as mainCategryCtrl',
                 resolve: {
                     categories: ['MenuDataService', function(menuDataService) {
-                        return menuDataService.getCategories().then(function(response) {
-                            return response.data;
-                        });
+                        return menuDataService.getCategories();
                     }]
                 } 
             })
-            .state('categories.item' , {
-                url: "/category-detail/{categoryName}",
+            .state('items' , {
+                url: "/item-detail/{categoryName}",
                 templateUrl: 'src/menu/template/categoryDetails.template.html',
                 controller: 'ItemsController as itemCtrl',
                 resolve: {
                     items : ['$stateParams', 'MenuDataService', function($stateParams, menuDataService) {
-                        return menuDataService.getItemsForCategory($stateParams.categoryName)
-                            .then(function(response) {
-                                return response.data.menu_items;
-                            });
+                        return menuDataService.getItemsForCategory($stateParams.categoryName);
                     }]
                 }
             }); 
