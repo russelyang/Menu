@@ -17,13 +17,28 @@
             })
             .state('categories', {
                 url: '/categories',
-                templateUrl: 'src/menu/template/categories.template.html',
+                templateUrl: 'src/menu/template/categories.template.html' ,
                 controller: 'CategoriesController as mainCategryCtrl',
                 resolve: {
                     categories: ['MenuDataService', function(menuDataService) {
-                        return menuDataService.getCategories();
+                        return menuDataService.getCategories().then(function(response) {
+                            return response.data;
+                        });
+                    }]
+                } 
+            })
+            .state('categories.item' , {
+                url: "/category-detail/{categoryName}",
+                templateUrl: 'src/menu/template/categoryDetails.template.html',
+                controller: 'ItemsController as itemCtrl',
+                resolve: {
+                    items : ['$stateParams', 'MenuDataService', function($stateParams, menuDataService) {
+                        return menuDataService.getItemsForCategory($stateParams.categoryName)
+                            .then(function(response) {
+                                return response.data.menu_items;
+                            });
                     }]
                 }
-            });
+            }); 
     }
 })();

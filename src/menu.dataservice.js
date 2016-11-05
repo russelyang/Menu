@@ -13,5 +13,12 @@
             return $http.get(BASE_URL + "/categories.json");
         };
 
+        service.getItemsForCategory = function(category) {
+            return $http( {
+                url: BASE_URL + '/menu_items.json',
+                method: 'GET',
+                params: {"category" : category}
+            });
+        };
     }
 })();
